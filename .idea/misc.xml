@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8 (1)" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="SbtLocalSettings">
+    <option name="modificationStamps">
+      <map>
+        <entry key="$USER_HOME$/Coursera/scala/recfun" value="1473965030000" />
+        <entry key="$USER_HOME$/Downloads/ValidationTest" value="1478108252000" />
+        <entry key="$USER_HOME$/IdeaProjects/FacebookCheckInPrediction" value="1463431084000" />
+        <entry key="$USER_HOME$/IdeaProjects/Lucky-Girl" value="5919240366000" />
+        <entry key="$USER_HOME$/IdeaProjects/blackjack" value="1453922091000" />
+        <entry key="$USER_HOME$/IdeaProjects/freezing-common-scala" value="1478123444000" />
+        <entry key="$USER_HOME$/IdeaProjects/ixrange" value="1459291062000" />
+        <entry key="$USER_HOME$/IdeaProjects/lucky-slider" value="1467839692000" />
+        <entry key="$USER_HOME$/IdeaProjects/luckygirl-play" value="8879663730000" />
+        <entry key="$USER_HOME$/IdeaProjects/pdfparser" value="1469483971000" />
+        <entry key="$USER_HOME$/IdeaProjects/takprog" value="1475322370000" />
+        <entry key="$USER_HOME$/IdeaProjects/toptal" value="1465501982000" />
+        <entry key="$USER_HOME$/IdeaProjects/toptal-play" value="1456279024000" />
+      </map>
+    </option>
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+</project>

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package io.freezing.benchmark;
+
+message BenchmarkRequest {
+  int32 server_payload_size_bytes = 1;
+  int32 server_work_iterations = 2;
+  int32 server_processing_iterations = 3;
+  bytes payload = 4;
+}
+
+message BenchmarkResponse {
+  bytes payload = 2;
+}
+
+service BenchmarkService {
+  rpc UnaryCall(BenchmarkRequest) returns (BenchmarkResponse) {}
+  rpc StreamingCall(stream BenchmarkRequest) returns (stream BenchmarkResponse) {}
+}
