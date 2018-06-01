@@ -16,9 +16,9 @@ public class MailboxTester {
     OrderedExecutor orderedExecutor = OrderedExecutor.create(throughput, paralelism);
     List<MailboxBridge> mailboxes = new ArrayList<>();
     for (int i = 0; i < numActors; i++) {
-      MailboxBridge mb = MailboxBridge.create();
+      Mailbox mailbox = orderedExecutor.registerMailbox();
+      MailboxBridge mb = MailboxBridge.create(mailbox);
       mailboxes.add(mb);
-      orderedExecutor.registerMailbox(mb.getMailbox());
     }
     orderedExecutor.start();
     return new MailboxTester(orderedExecutor, mailboxes,
