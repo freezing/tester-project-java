@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4acacabf-b9b5-4e48-a4e8-ffc2e2cb84ca" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/freezing/async/OrderedExecutor.java" afterPath="$PROJECT_DIR$/src/main/java/io/freezing/async/OrderedExecutor.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/freezing/async/Mailbox.java" afterPath="$PROJECT_DIR$/src/main/java/io/freezing/async/Mailbox.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -21,11 +21,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="OrderedExecutor.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="OrderedExecutor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/freezing/async/OrderedExecutor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="609">
-              <caret line="125" column="32" lean-forward="false" selection-start-line="125" selection-start-column="32" selection-end-line="125" selection-end-column="32" />
+            <state relative-caret-position="89">
+              <caret line="99" column="7" lean-forward="true" selection-start-line="99" selection-start-column="7" selection-end-line="99" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2123#2124#0" expanded="true" />
@@ -64,24 +64,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Mailbox.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Mailbox.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/freezing/async/Mailbox.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="479">
-              <caret line="24" column="3" lean-forward="false" selection-start-line="24" selection-start-column="3" selection-end-line="24" selection-end-column="3" />
+            <state relative-caret-position="239">
+              <caret line="12" column="21" lean-forward="false" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
               <folding>
-                <element signature="e#362#363#0" expanded="true" />
-                <element signature="e#391#392#0" expanded="true" />
-                <element signature="e#431#432#0" expanded="true" />
-                <element signature="e#453#454#0" expanded="true" />
-                <element signature="e#474#475#0" expanded="true" />
-                <element signature="e#493#494#0" expanded="true" />
-                <element signature="e#522#523#0" expanded="true" />
-                <element signature="e#543#544#0" expanded="true" />
-                <element signature="e#571#572#0" expanded="true" />
-                <element signature="e#600#601#0" expanded="true" />
-                <element signature="e#630#631#0" expanded="true" />
-                <element signature="e#662#663#0" expanded="true" />
+                <element signature="e#377#378#0" expanded="true" />
+                <element signature="e#406#407#0" expanded="true" />
+                <element signature="e#446#447#0" expanded="true" />
+                <element signature="e#468#469#0" expanded="true" />
+                <element signature="e#489#490#0" expanded="true" />
+                <element signature="e#508#509#0" expanded="true" />
+                <element signature="e#537#538#0" expanded="true" />
+                <element signature="e#558#559#0" expanded="true" />
+                <element signature="e#586#587#0" expanded="true" />
+                <element signature="e#615#616#0" expanded="true" />
+                <element signature="e#645#646#0" expanded="true" />
+                <element signature="e#677#678#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -605,10 +605,10 @@
         <option value="$PROJECT_DIR$/src/main/java/benchmark/grpc/server/ServerConfiguration.java" />
         <option value="$PROJECT_DIR$/src/main/java/benchmark/grpc/client/ClientConfiguration.java" />
         <option value="$PROJECT_DIR$/src/main/java/benchmark/grpc/client/AsyncClient.java" />
-        <option value="$PROJECT_DIR$/src/main/java/io/freezing/async/Mailbox.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/freezing/async/MailboxTester.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/freezing/async/MailboxBridge.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/freezing/async/OrderedExecutor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/io/freezing/async/Mailbox.java" />
       </list>
     </option>
   </component>
@@ -1502,27 +1502,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/freezing/async/Mailbox.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
-          <caret line="24" column="3" lean-forward="false" selection-start-line="24" selection-start-column="3" selection-end-line="24" selection-end-column="3" />
-          <folding>
-            <element signature="e#362#363#0" expanded="true" />
-            <element signature="e#391#392#0" expanded="true" />
-            <element signature="e#431#432#0" expanded="true" />
-            <element signature="e#453#454#0" expanded="true" />
-            <element signature="e#474#475#0" expanded="true" />
-            <element signature="e#493#494#0" expanded="true" />
-            <element signature="e#522#523#0" expanded="true" />
-            <element signature="e#543#544#0" expanded="true" />
-            <element signature="e#571#572#0" expanded="true" />
-            <element signature="e#600#601#0" expanded="true" />
-            <element signature="e#630#631#0" expanded="true" />
-            <element signature="e#662#663#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/freezing/async/MailboxTester.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
@@ -1550,12 +1529,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/freezing/async/OrderedExecutor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="125" column="32" lean-forward="false" selection-start-line="125" selection-start-column="32" selection-end-line="125" selection-end-column="32" />
+        <state relative-caret-position="89">
+          <caret line="99" column="7" lean-forward="true" selection-start-line="99" selection-start-column="7" selection-end-line="99" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2123#2124#0" expanded="true" />
             <element signature="e#2170#2171#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/freezing/async/Mailbox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="12" column="21" lean-forward="false" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
+          <folding>
+            <element signature="e#377#378#0" expanded="true" />
+            <element signature="e#406#407#0" expanded="true" />
+            <element signature="e#446#447#0" expanded="true" />
+            <element signature="e#468#469#0" expanded="true" />
+            <element signature="e#489#490#0" expanded="true" />
+            <element signature="e#508#509#0" expanded="true" />
+            <element signature="e#537#538#0" expanded="true" />
+            <element signature="e#558#559#0" expanded="true" />
+            <element signature="e#586#587#0" expanded="true" />
+            <element signature="e#615#616#0" expanded="true" />
+            <element signature="e#645#646#0" expanded="true" />
+            <element signature="e#677#678#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -5,11 +5,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Mailbox {
   private final int id;
   private final ConcurrentLinkedQueue<Runnable> tasks;
-  private volatile boolean idle = true;
+  private volatile boolean idle;
 
   public Mailbox(int id) {
     this.id = id;
     this.tasks = new ConcurrentLinkedQueue<>();
+    this.idle = true;
   }
 
   public void enqueue(Runnable runnable) {
