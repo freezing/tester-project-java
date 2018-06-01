@@ -123,6 +123,7 @@ public class OrderedExecutor {
       for (int mailboxId : toRemoveMailboxes) {
         mailboxes.remove(mailboxId);
       }
+      toRemoveMailboxes.clear();
     }
     return true;
   }
