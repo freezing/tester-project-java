@@ -9,13 +9,16 @@ public class PayloadHelpers {
   public static BenchmarkRequest makeBenchmarkRequest(
       int clientPayloadSizeBytes, int serverPayloadSizeBytes) {
     return BenchmarkRequest.newBuilder()
+        // TODO: Set server work iterations.
+//        .setServerWorkIterations()
         .setServerPayloadSizeBytes(serverPayloadSizeBytes)
         .setPayload(makeRandomPayload(clientPayloadSizeBytes))
         .build();
   }
 
-  public static BenchmarkResponse makeBenchmarkResponse(int payloadSizeBytes) {
+  public static BenchmarkResponse makeBenchmarkResponse(int id, int payloadSizeBytes) {
     return BenchmarkResponse.newBuilder()
+        .setId(id)
         .setPayload(PayloadHelpers.makeRandomPayload(payloadSizeBytes))
         .build();
   }

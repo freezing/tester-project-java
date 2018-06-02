@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BenchmarkServiceImpl extends BenchmarkServiceImplBase {
-  private static final boolean ENABLE_FLOW_CONTROL = true;
+  private static final boolean ENABLE_FLOW_CONTROL = false;
 
   private final Executor processingExecutor;
 
@@ -27,7 +27,7 @@ public class BenchmarkServiceImpl extends BenchmarkServiceImplBase {
   public void unaryCall(BenchmarkRequest request,
       StreamObserver<BenchmarkResponse> responseObserver) {
     BenchmarkResponse response =
-        PayloadHelpers.makeBenchmarkResponse(request.getServerPayloadSizeBytes());
+        PayloadHelpers.makeBenchmarkResponse(0, request.getServerPayloadSizeBytes());
     responseObserver.onNext(response);
     responseObserver.onCompleted();
   }
@@ -66,7 +66,8 @@ public class BenchmarkServiceImpl extends BenchmarkServiceImplBase {
             processingRes = 1 + Math.abs(processingRes);
             if (processingRes > 0) {
               responseObserver.onNext(
-                  PayloadHelpers.makeBenchmarkResponse(value.getServerPayloadSizeBytes()));
+                  PayloadHelpers.makeBenchmarkResponse(value.getId(),
+                      value.getServerPayloadSizeBytes()));
             } else {
               System.err.println("processingRes not > 0");
             }

@@ -13,22 +13,27 @@ public final class Server {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional int32 server_payload_size_bytes = 1;</code>
+     * <code>optional int32 id = 1;</code>
+     */
+    int getId();
+
+    /**
+     * <code>optional int32 server_payload_size_bytes = 2;</code>
      */
     int getServerPayloadSizeBytes();
 
     /**
-     * <code>optional int32 server_work_iterations = 2;</code>
+     * <code>optional int32 server_work_iterations = 3;</code>
      */
     int getServerWorkIterations();
 
     /**
-     * <code>optional int32 server_processing_iterations = 3;</code>
+     * <code>optional int32 server_processing_iterations = 4;</code>
      */
     int getServerProcessingIterations();
 
     /**
-     * <code>optional bytes payload = 4;</code>
+     * <code>optional bytes payload = 5;</code>
      */
     com.google.protobuf.ByteString getPayload();
   }
@@ -44,6 +49,7 @@ public final class Server {
       super(builder);
     }
     private BenchmarkRequest() {
+      id_ = 0;
       serverPayloadSizeBytes_ = 0;
       serverWorkIterations_ = 0;
       serverProcessingIterations_ = 0;
@@ -76,20 +82,25 @@ public final class Server {
             }
             case 8: {
 
-              serverPayloadSizeBytes_ = input.readInt32();
+              id_ = input.readInt32();
               break;
             }
             case 16: {
 
-              serverWorkIterations_ = input.readInt32();
+              serverPayloadSizeBytes_ = input.readInt32();
               break;
             }
             case 24: {
 
+              serverWorkIterations_ = input.readInt32();
+              break;
+            }
+            case 32: {
+
               serverProcessingIterations_ = input.readInt32();
               break;
             }
-            case 34: {
+            case 42: {
 
               payload_ = input.readBytes();
               break;
@@ -118,37 +129,46 @@ public final class Server {
               io.freezing.benchmark.Server.BenchmarkRequest.class, io.freezing.benchmark.Server.BenchmarkRequest.Builder.class);
     }
 
-    public static final int SERVER_PAYLOAD_SIZE_BYTES_FIELD_NUMBER = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>optional int32 id = 1;</code>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    public static final int SERVER_PAYLOAD_SIZE_BYTES_FIELD_NUMBER = 2;
     private int serverPayloadSizeBytes_;
     /**
-     * <code>optional int32 server_payload_size_bytes = 1;</code>
+     * <code>optional int32 server_payload_size_bytes = 2;</code>
      */
     public int getServerPayloadSizeBytes() {
       return serverPayloadSizeBytes_;
     }
 
-    public static final int SERVER_WORK_ITERATIONS_FIELD_NUMBER = 2;
+    public static final int SERVER_WORK_ITERATIONS_FIELD_NUMBER = 3;
     private int serverWorkIterations_;
     /**
-     * <code>optional int32 server_work_iterations = 2;</code>
+     * <code>optional int32 server_work_iterations = 3;</code>
      */
     public int getServerWorkIterations() {
       return serverWorkIterations_;
     }
 
-    public static final int SERVER_PROCESSING_ITERATIONS_FIELD_NUMBER = 3;
+    public static final int SERVER_PROCESSING_ITERATIONS_FIELD_NUMBER = 4;
     private int serverProcessingIterations_;
     /**
-     * <code>optional int32 server_processing_iterations = 3;</code>
+     * <code>optional int32 server_processing_iterations = 4;</code>
      */
     public int getServerProcessingIterations() {
       return serverProcessingIterations_;
     }
 
-    public static final int PAYLOAD_FIELD_NUMBER = 4;
+    public static final int PAYLOAD_FIELD_NUMBER = 5;
     private com.google.protobuf.ByteString payload_;
     /**
-     * <code>optional bytes payload = 4;</code>
+     * <code>optional bytes payload = 5;</code>
      */
     public com.google.protobuf.ByteString getPayload() {
       return payload_;
@@ -166,17 +186,20 @@ public final class Server {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (id_ != 0) {
+        output.writeInt32(1, id_);
+      }
       if (serverPayloadSizeBytes_ != 0) {
-        output.writeInt32(1, serverPayloadSizeBytes_);
+        output.writeInt32(2, serverPayloadSizeBytes_);
       }
       if (serverWorkIterations_ != 0) {
-        output.writeInt32(2, serverWorkIterations_);
+        output.writeInt32(3, serverWorkIterations_);
       }
       if (serverProcessingIterations_ != 0) {
-        output.writeInt32(3, serverProcessingIterations_);
+        output.writeInt32(4, serverProcessingIterations_);
       }
       if (!payload_.isEmpty()) {
-        output.writeBytes(4, payload_);
+        output.writeBytes(5, payload_);
       }
     }
 
@@ -186,21 +209,25 @@ public final class Server {
       if (size != -1) return size;
 
       size = 0;
+      if (id_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, id_);
+      }
       if (serverPayloadSizeBytes_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, serverPayloadSizeBytes_);
+          .computeInt32Size(2, serverPayloadSizeBytes_);
       }
       if (serverWorkIterations_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, serverWorkIterations_);
+          .computeInt32Size(3, serverWorkIterations_);
       }
       if (serverProcessingIterations_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, serverProcessingIterations_);
+          .computeInt32Size(4, serverProcessingIterations_);
       }
       if (!payload_.isEmpty()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, payload_);
+          .computeBytesSize(5, payload_);
       }
       memoizedSerializedSize = size;
       return size;
@@ -313,6 +340,8 @@ public final class Server {
       }
       public Builder clear() {
         super.clear();
+        id_ = 0;
+
         serverPayloadSizeBytes_ = 0;
 
         serverWorkIterations_ = 0;
@@ -343,6 +372,7 @@ public final class Server {
 
       public io.freezing.benchmark.Server.BenchmarkRequest buildPartial() {
         io.freezing.benchmark.Server.BenchmarkRequest result = new io.freezing.benchmark.Server.BenchmarkRequest(this);
+        result.id_ = id_;
         result.serverPayloadSizeBytes_ = serverPayloadSizeBytes_;
         result.serverWorkIterations_ = serverWorkIterations_;
         result.serverProcessingIterations_ = serverProcessingIterations_;
@@ -362,6 +392,9 @@ public final class Server {
 
       public Builder mergeFrom(io.freezing.benchmark.Server.BenchmarkRequest other) {
         if (other == io.freezing.benchmark.Server.BenchmarkRequest.getDefaultInstance()) return this;
+        if (other.getId() != 0) {
+          setId(other.getId());
+        }
         if (other.getServerPayloadSizeBytes() != 0) {
           setServerPayloadSizeBytes(other.getServerPayloadSizeBytes());
         }
@@ -400,15 +433,41 @@ public final class Server {
         return this;
       }
 
+      private int id_ ;
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      public Builder setId(int value) {
+        
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      public Builder clearId() {
+        
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
       private int serverPayloadSizeBytes_ ;
       /**
-       * <code>optional int32 server_payload_size_bytes = 1;</code>
+       * <code>optional int32 server_payload_size_bytes = 2;</code>
        */
       public int getServerPayloadSizeBytes() {
         return serverPayloadSizeBytes_;
       }
       /**
-       * <code>optional int32 server_payload_size_bytes = 1;</code>
+       * <code>optional int32 server_payload_size_bytes = 2;</code>
        */
       public Builder setServerPayloadSizeBytes(int value) {
         
@@ -417,7 +476,7 @@ public final class Server {
         return this;
       }
       /**
-       * <code>optional int32 server_payload_size_bytes = 1;</code>
+       * <code>optional int32 server_payload_size_bytes = 2;</code>
        */
       public Builder clearServerPayloadSizeBytes() {
         
@@ -428,13 +487,13 @@ public final class Server {
 
       private int serverWorkIterations_ ;
       /**
-       * <code>optional int32 server_work_iterations = 2;</code>
+       * <code>optional int32 server_work_iterations = 3;</code>
        */
       public int getServerWorkIterations() {
         return serverWorkIterations_;
       }
       /**
-       * <code>optional int32 server_work_iterations = 2;</code>
+       * <code>optional int32 server_work_iterations = 3;</code>
        */
       public Builder setServerWorkIterations(int value) {
         
@@ -443,7 +502,7 @@ public final class Server {
         return this;
       }
       /**
-       * <code>optional int32 server_work_iterations = 2;</code>
+       * <code>optional int32 server_work_iterations = 3;</code>
        */
       public Builder clearServerWorkIterations() {
         
@@ -454,13 +513,13 @@ public final class Server {
 
       private int serverProcessingIterations_ ;
       /**
-       * <code>optional int32 server_processing_iterations = 3;</code>
+       * <code>optional int32 server_processing_iterations = 4;</code>
        */
       public int getServerProcessingIterations() {
         return serverProcessingIterations_;
       }
       /**
-       * <code>optional int32 server_processing_iterations = 3;</code>
+       * <code>optional int32 server_processing_iterations = 4;</code>
        */
       public Builder setServerProcessingIterations(int value) {
         
@@ -469,7 +528,7 @@ public final class Server {
         return this;
       }
       /**
-       * <code>optional int32 server_processing_iterations = 3;</code>
+       * <code>optional int32 server_processing_iterations = 4;</code>
        */
       public Builder clearServerProcessingIterations() {
         
@@ -480,13 +539,13 @@ public final class Server {
 
       private com.google.protobuf.ByteString payload_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>optional bytes payload = 4;</code>
+       * <code>optional bytes payload = 5;</code>
        */
       public com.google.protobuf.ByteString getPayload() {
         return payload_;
       }
       /**
-       * <code>optional bytes payload = 4;</code>
+       * <code>optional bytes payload = 5;</code>
        */
       public Builder setPayload(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -498,7 +557,7 @@ public final class Server {
         return this;
       }
       /**
-       * <code>optional bytes payload = 4;</code>
+       * <code>optional bytes payload = 5;</code>
        */
       public Builder clearPayload() {
         
@@ -565,6 +624,11 @@ public final class Server {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <code>optional int32 id = 1;</code>
+     */
+    int getId();
+
+    /**
      * <code>optional bytes payload = 2;</code>
      */
     com.google.protobuf.ByteString getPayload();
@@ -581,6 +645,7 @@ public final class Server {
       super(builder);
     }
     private BenchmarkResponse() {
+      id_ = 0;
       payload_ = com.google.protobuf.ByteString.EMPTY;
     }
 
@@ -606,6 +671,11 @@ public final class Server {
               if (!input.skipField(tag)) {
                 done = true;
               }
+              break;
+            }
+            case 8: {
+
+              id_ = input.readInt32();
               break;
             }
             case 18: {
@@ -637,6 +707,15 @@ public final class Server {
               io.freezing.benchmark.Server.BenchmarkResponse.class, io.freezing.benchmark.Server.BenchmarkResponse.Builder.class);
     }
 
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>optional int32 id = 1;</code>
+     */
+    public int getId() {
+      return id_;
+    }
+
     public static final int PAYLOAD_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString payload_;
     /**
@@ -658,6 +737,9 @@ public final class Server {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (id_ != 0) {
+        output.writeInt32(1, id_);
+      }
       if (!payload_.isEmpty()) {
         output.writeBytes(2, payload_);
       }
@@ -669,6 +751,10 @@ public final class Server {
       if (size != -1) return size;
 
       size = 0;
+      if (id_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, id_);
+      }
       if (!payload_.isEmpty()) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, payload_);
@@ -784,6 +870,8 @@ public final class Server {
       }
       public Builder clear() {
         super.clear();
+        id_ = 0;
+
         payload_ = com.google.protobuf.ByteString.EMPTY;
 
         return this;
@@ -808,6 +896,7 @@ public final class Server {
 
       public io.freezing.benchmark.Server.BenchmarkResponse buildPartial() {
         io.freezing.benchmark.Server.BenchmarkResponse result = new io.freezing.benchmark.Server.BenchmarkResponse(this);
+        result.id_ = id_;
         result.payload_ = payload_;
         onBuilt();
         return result;
@@ -824,6 +913,9 @@ public final class Server {
 
       public Builder mergeFrom(io.freezing.benchmark.Server.BenchmarkResponse other) {
         if (other == io.freezing.benchmark.Server.BenchmarkResponse.getDefaultInstance()) return this;
+        if (other.getId() != 0) {
+          setId(other.getId());
+        }
         if (other.getPayload() != com.google.protobuf.ByteString.EMPTY) {
           setPayload(other.getPayload());
         }
@@ -850,6 +942,32 @@ public final class Server {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+
+      private int id_ ;
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      public Builder setId(int value) {
+        
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 id = 1;</code>
+       */
+      public Builder clearId() {
+        
+        id_ = 0;
+        onChanged();
         return this;
       }
 
@@ -954,18 +1072,18 @@ public final class Server {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014server.proto\022\025io.freezing.benchmark\"\214\001" +
-      "\n\020BenchmarkRequest\022!\n\031server_payload_siz" +
-      "e_bytes\030\001 \001(\005\022\036\n\026server_work_iterations\030" +
-      "\002 \001(\005\022$\n\034server_processing_iterations\030\003 " +
-      "\001(\005\022\017\n\007payload\030\004 \001(\014\"$\n\021BenchmarkRespons" +
-      "e\022\017\n\007payload\030\002 \001(\0142\336\001\n\020BenchmarkService\022" +
-      "`\n\tUnaryCall\022\'.io.freezing.benchmark.Ben" +
-      "chmarkRequest\032(.io.freezing.benchmark.Be" +
-      "nchmarkResponse\"\000\022h\n\rStreamingCall\022\'.io." +
-      "freezing.benchmark.BenchmarkRequest\032(.io",
-      ".freezing.benchmark.BenchmarkResponse\"\000(" +
-      "\0010\001b\006proto3"
+      "\n\014server.proto\022\025io.freezing.benchmark\"\230\001" +
+      "\n\020BenchmarkRequest\022\n\n\002id\030\001 \001(\005\022!\n\031server" +
+      "_payload_size_bytes\030\002 \001(\005\022\036\n\026server_work" +
+      "_iterations\030\003 \001(\005\022$\n\034server_processing_i" +
+      "terations\030\004 \001(\005\022\017\n\007payload\030\005 \001(\014\"0\n\021Benc" +
+      "hmarkResponse\022\n\n\002id\030\001 \001(\005\022\017\n\007payload\030\002 \001" +
+      "(\0142\336\001\n\020BenchmarkService\022`\n\tUnaryCall\022\'.i" +
+      "o.freezing.benchmark.BenchmarkRequest\032(." +
+      "io.freezing.benchmark.BenchmarkResponse\"" +
+      "\000\022h\n\rStreamingCall\022\'.io.freezing.benchma",
+      "rk.BenchmarkRequest\032(.io.freezing.benchm" +
+      "ark.BenchmarkResponse\"\000(\0010\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -984,13 +1102,13 @@ public final class Server {
     internal_static_io_freezing_benchmark_BenchmarkRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_freezing_benchmark_BenchmarkRequest_descriptor,
-        new java.lang.String[] { "ServerPayloadSizeBytes", "ServerWorkIterations", "ServerProcessingIterations", "Payload", });
+        new java.lang.String[] { "Id", "ServerPayloadSizeBytes", "ServerWorkIterations", "ServerProcessingIterations", "Payload", });
     internal_static_io_freezing_benchmark_BenchmarkResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_io_freezing_benchmark_BenchmarkResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_io_freezing_benchmark_BenchmarkResponse_descriptor,
-        new java.lang.String[] { "Payload", });
+        new java.lang.String[] { "Id", "Payload", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -1,6 +1,8 @@
-package benchmark.grpc.client;
+package benchmark.grpc.client.advanced;
 
 import benchmark.grpc.Transport;
+import benchmark.grpc.client.BenchmarkResponseObserver;
+import benchmark.grpc.client.ClientConfiguration;
 import benchmark.grpc.common.MetricsHelper;
 import benchmark.grpc.common.PayloadHelpers;
 import benchmark.grpc.common.ThreadHelpers;
@@ -20,22 +22,24 @@ import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import org.HdrHistogram.Histogram;
 
-public class AsyncClient {
-  private final ClientConfiguration configuration;
+public class AsyncClientAdvanced {
+  private final ClientConfigurationAdvanced configuration;
 
-  public AsyncClient(ClientConfiguration configuration) {
+  public AsyncClientAdvanced(ClientConfigurationAdvanced configuration) {
     this.configuration = configuration;
   }
 
   public static void main(String[] args) throws ExecutionException, InterruptedException {
     Transport transport = Transport.NETTY_NIO;
     SocketAddress serverAddress = new InetSocketAddress("localhost", 9999);
-    ClientConfiguration clientConfiguration =
-        ClientConfiguration.createDefault(serverAddress, transport);
-    new AsyncClient(clientConfiguration).run();
+    ClientConfigurationAdvanced clientConfiguration =
+        ClientConfigurationAdvanced.createDefault(serverAddress, transport);
+    System.out.println(clientConfiguration);
+    new AsyncClientAdvanced(clientConfiguration).run();
   }
 
   private void run() throws ExecutionException, InterruptedException {
@@ -75,7 +79,9 @@ public class AsyncClient {
 
     ImmutableList<ListenableFuture<Histogram>> histogramFutures = channels.stream()
         .map(channel ->
-            doRpcs(channel, configuration.rpcsPerChannel(), request, benchmarkFinishTimeNanos))
+            doRpcs(channel, configuration.streamsPerChannel(),
+                configuration.outsandingRpcsPerStream(),
+                request, benchmarkFinishTimeNanos))
         .collect(ImmutableList.toImmutableList());
     return Futures.transform(Futures.allAsList(histogramFutures),
         this::mergeHistograms,
@@ -83,13 +89,13 @@ public class AsyncClient {
   }
 
   private ListenableFuture<Histogram> doRpcs(ManagedChannel channel,
-      int rpcsPerChannel, BenchmarkRequest request, long benchmarkFinishTimeNanos) {
+      int streamsPerChannel, int outstandingRpcsPerStream,
+      BenchmarkRequest request, long benchmarkFinishTimeNanos) {
     ImmutableList.Builder<ListenableFuture<Histogram>> histogramBuilderFutures =
         ImmutableList.builder();
-    for (int i = 0; i < rpcsPerChannel; i++) {
-      // TODO: Check request type and introduce unary calls.
+    for (int i = 0; i < streamsPerChannel; i++) {
       ListenableFuture<Histogram> histogramFuture =
-          doStreamingCall(channel, request, benchmarkFinishTimeNanos);
+          doStreamingCall(channel, request, benchmarkFinishTimeNanos, outstandingRpcsPerStream);
       histogramBuilderFutures.add(histogramFuture);
     }
     return Futures.transform(Futures.allAsList(histogramBuilderFutures.build()),
@@ -98,21 +104,19 @@ public class AsyncClient {
   }
 
   private ListenableFuture<Histogram> doStreamingCall(
-      ManagedChannel channel, BenchmarkRequest request, long benchmarkFinishTimeNanos) {
-    long nowNanos = System.nanoTime();
-
+      ManagedChannel channel, BenchmarkRequest request, long benchmarkFinishTimeNanos,
+      int outstandingRpcsPerStream) {
     SettableFuture<Histogram> histogramFuture = SettableFuture.create();
-    BenchmarkServiceStub stub = BenchmarkServiceGrpc.newStub(channel)
-        .withDeadlineAfter(1000, TimeUnit.SECONDS);
-    BenchmarkResponseObserver responseObserver = new BenchmarkResponseObserver(
+    BenchmarkServiceStub stub = BenchmarkServiceGrpc.newStub(channel);
+    BenchmarkResponseObserverAdvanced responseObserver = new BenchmarkResponseObserverAdvanced(
+        outstandingRpcsPerStream,
         histogramFuture,
         request,
-        /* lastCallNanos */ nowNanos,
         benchmarkFinishTimeNanos);
     StreamObserver<BenchmarkRequest> requestStream =
         stub.streamingCall(responseObserver);
     responseObserver.setRequestStream(requestStream);
-    requestStream.onNext(request);
+    responseObserver.start();
     return histogramFuture;
   }
 
@@ -126,7 +130,7 @@ public class AsyncClient {
     return merged;
   }
 
-  private List<ManagedChannel> makeManagedChannels(ClientConfiguration configuration) {
+  private List<ManagedChannel> makeManagedChannels(ClientConfigurationAdvanced configuration) {
     List<ManagedChannel> channels = new ArrayList<>();
     for (int i = 0; i < configuration.numChannels(); i++) {
       ManagedChannel channel = NettyChannelBuilder

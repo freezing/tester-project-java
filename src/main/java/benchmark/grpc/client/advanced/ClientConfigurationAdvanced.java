@@ -1,4 +1,4 @@
-package benchmark.grpc.client;
+package benchmark.grpc.client.advanced;
 
 import benchmark.grpc.Transport;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -8,24 +8,24 @@ import java.net.SocketAddress;
 import java.util.concurrent.Executor;
 import netty.Util;
 
-public class ClientConfiguration {
+public class ClientConfigurationAdvanced {
   private final SocketAddress socketAddress;
   private final Executor executor;
   private final int numChannels;
   private final int flowControlWindowSizeBytes;
   private final EventLoopGroup eventLoopGroup;
   private final Class<? extends SocketChannel> channelType;
-  // TODO: Add RpcType
   private final int warmupDurationSeconds;
   private final int benchmarkDurationSeconds;
-  private final int rpcsPerChannel;
+  private final int streamsPerChannel;
+  private final int outsandingRpcsPerStream;
   private final int serverPayloadSizeBytes;
   private final int clientPayloadSizeBytes;
   private final int serverWorkIterations;
   private final int serverProcessingIterations;
 
-  public ClientConfiguration(SocketAddress socketAddress, Executor executor, int numChannels,
-      int rpcsPerChannel, int flowControlWindowSizeBytes,
+  public ClientConfigurationAdvanced(SocketAddress socketAddress, Executor executor, int numChannels,
+      int streamsPerChannel, int outstandingRpcsPerStream, int flowControlWindowSizeBytes,
       EventLoopGroup eventLoopGroup,
       Class<? extends SocketChannel> channelType, int warmupDurationSeconds,
       int benchmarkDurationSeconds, int serverPayloadSizeBytes, int clientPayloadSizeBytes,
@@ -33,7 +33,8 @@ public class ClientConfiguration {
     this.socketAddress = socketAddress;
     this.executor = executor;
     this.numChannels = numChannels;
-    this.rpcsPerChannel = rpcsPerChannel;
+    this.streamsPerChannel = streamsPerChannel;
+    this.outsandingRpcsPerStream = outstandingRpcsPerStream;
     this.flowControlWindowSizeBytes = flowControlWindowSizeBytes;
     this.eventLoopGroup = eventLoopGroup;
     this.channelType = channelType;
@@ -57,8 +58,12 @@ public class ClientConfiguration {
     return numChannels;
   }
 
-  public int rpcsPerChannel() {
-    return rpcsPerChannel;
+  public int streamsPerChannel() {
+    return streamsPerChannel;
+  }
+
+  public int outsandingRpcsPerStream() {
+    return outsandingRpcsPerStream;
   }
 
   public int flowControlWindowSizeBytes() {
@@ -97,15 +102,29 @@ public class ClientConfiguration {
     return serverProcessingIterations;
   }
 
-  public static ClientConfiguration createDefault(
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+
+    sb
+        .append("Client configuration\n")
+        .append(String.format("  # channels: %d\n", numChannels))
+        .append(String.format("  # streams per channel: %d\n", streamsPerChannel))
+        .append(String.format("  # Outstanding RPCs per stream: %d\n", outsandingRpcsPerStream));
+
+    return sb.toString();
+  }
+
+  public static ClientConfigurationAdvanced createDefault(
       SocketAddress socketAddress, Transport transport) {
-    return new ClientConfiguration(
+    return new ClientConfigurationAdvanced(
         socketAddress,
         MoreExecutors.directExecutor(),
 //        Executors.newFixedThreadPool(4),
 //        new ForkJoinPool(2),
-        /* numChannels */ 10,
-        /* rpcsPerChannel */ 800,
+        /* numChannels */ 4,
+        /* streamsPerChannel */ 1,
+        /* outstandingRpcsPerStream */ 2,
         /* flowControlWindowSizeBytes */ 4 * 1024 * 1024, // 1MB
         Util.createEventLoopGroup(8, transport),
         Util.getClientChannelClass(transport),
