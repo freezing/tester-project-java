@@ -116,7 +116,7 @@ public class OrderedExecutor {
   }
 
   private boolean tryUnregisterPendingMailboxes() {
-    if (toRemoveMailboxesPresent) {
+    if (!toRemoveMailboxesPresent) {
       return false;
     }
     synchronized (this) {
