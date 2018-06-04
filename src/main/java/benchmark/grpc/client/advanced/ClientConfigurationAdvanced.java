@@ -6,6 +6,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import java.net.SocketAddress;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import netty.Util;
 
 public class ClientConfigurationAdvanced {
@@ -119,18 +121,18 @@ public class ClientConfigurationAdvanced {
       SocketAddress socketAddress, Transport transport) {
     return new ClientConfigurationAdvanced(
         socketAddress,
-        MoreExecutors.directExecutor(),
-//        Executors.newFixedThreadPool(4),
-//        new ForkJoinPool(2),
+//        Executors.newFixedThreadPool(2),
+//        MoreExecutors.directExecutor(),
+        new ForkJoinPool(3),
         /* numChannels */ 4,
-        /* streamsPerChannel */ 1,
-        /* outstandingRpcsPerStream */ 2,
-        /* flowControlWindowSizeBytes */ 4 * 1024 * 1024, // 1MB
-        Util.createEventLoopGroup(8, transport),
+        /* streamsPerChannel */ 4,
+        /* outstandingRpcsPerStream */ 300,
+        /* flowControlWindowSizeBytes */ 4 * 1024 * 1024, // 4MB
+        Util.createEventLoopGroup(4, transport),
         Util.getClientChannelClass(transport),
         /* warmupDurationSeconds */ 5,
         /* benchmarkDurationSeconds */ 20,
-        /* serverPayloadSizeBytes */ 100,
+        /* serverPayloadSizeBytes */ 2000,
         /* clientPayloadSizeBytes */ 100,
         /* serverWorkIterations */ 1000,
         /* serverProcessingIterations */ 1000);

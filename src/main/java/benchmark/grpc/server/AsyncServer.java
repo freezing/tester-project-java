@@ -35,7 +35,7 @@ public class AsyncServer {
         .maxConcurrentCallsPerConnection(serverConfiguration.maxConcurrentCallsPerConnection())
         .maxMessageSize(serverConfiguration.maxMessageSizeBytes())
         .fallbackHandlerRegistry(serverConfiguration.fallbackHandlerRegistry())
-        .addService(BenchmarkServiceImpl.create(serverConfiguration.numProcessingThreads()))
+        .addService(BenchmarkServiceImpl.create())
         .build();
 
     server.start();

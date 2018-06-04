@@ -8,6 +8,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.ServerChannel;
 import java.net.SocketAddress;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import netty.Util;
 
 public class ServerConfiguration {
@@ -18,14 +20,13 @@ public class ServerConfiguration {
   private final int flowControlWindowSizeBytes;
   private final int maxConcurrentCallsPerConnection;
   private final int maxMessageSizeBytes;
-  private final int numProcessingThreads;
   private final Class<? extends ServerChannel> channelType;
   private final HandlerRegistry fallbackHandlerRegistry;
 
   public ServerConfiguration(SocketAddress socketAddress,
       EventLoopGroup bossEventLoopGroup, EventLoopGroup workerEventLoopGroup,
       Executor executor, int flowControlWindowSizeBytes, int maxConcurrentCallsPerConnection,
-      int maxMessageSizeBytes, int numProcessingThreads,
+      int maxMessageSizeBytes,
       Class<? extends ServerChannel> channelType, HandlerRegistry fallbackHandlerRegistry) {
     this.socketAddress = socketAddress;
     this.bossEventLoopGroup = bossEventLoopGroup;
@@ -34,7 +35,6 @@ public class ServerConfiguration {
     this.flowControlWindowSizeBytes = flowControlWindowSizeBytes;
     this.maxConcurrentCallsPerConnection = maxConcurrentCallsPerConnection;
     this.maxMessageSizeBytes = maxMessageSizeBytes;
-    this.numProcessingThreads = numProcessingThreads;
     this.channelType = channelType;
     this.fallbackHandlerRegistry = fallbackHandlerRegistry;
   }
@@ -67,10 +67,6 @@ public class ServerConfiguration {
     return maxMessageSizeBytes;
   }
 
-  public int numProcessingThreads() {
-    return numProcessingThreads;
-  }
-
   public Class<? extends ServerChannel> channelType() {
     return channelType;
   }
@@ -84,14 +80,13 @@ public class ServerConfiguration {
     return new ServerConfiguration(
         socketAddress,
         /* bossEventLoopGroup */ Util.createEventLoopGroup(1, transport),
-        /* workerEventLoopGroup */ Util.createEventLoopGroup(8, transport),
-        MoreExecutors.directExecutor(),
-//        Executors.newFixedThreadPool(4),
-//        new ForkJoinPool(2),
+        /* workerEventLoopGroup */ Util.createEventLoopGroup(4, transport),
+//        Executors.newFixedThreadPool(5),
+//        MoreExecutors.directExecutor(),
+        new ForkJoinPool(4),
         NettyChannelBuilder.DEFAULT_FLOW_CONTROL_WINDOW,
         Integer.MAX_VALUE,
         /* maxMessageSizeBytes */ 4 * 1024 * 1024, // 4MB
-        /* numProcessingThreads */ 4,
         Util.getServerChannelClass(transport),
         /* fallbackHandlerRegistry */ null);
   }

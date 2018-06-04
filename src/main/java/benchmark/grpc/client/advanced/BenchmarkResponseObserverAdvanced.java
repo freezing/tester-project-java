@@ -7,8 +7,6 @@ import io.freezing.benchmark.Server.BenchmarkResponse;
 import io.grpc.stub.StreamObserver;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import org.HdrHistogram.Histogram;
 
 /**
@@ -27,7 +25,6 @@ public class BenchmarkResponseObserverAdvanced implements StreamObserver<Benchma
   private int nextRequestId;
   private int currentOutstandingRpcs;
   private boolean isCompleted;
-  private final Executor ex = Executors.newSingleThreadExecutor();
 
   public BenchmarkResponseObserverAdvanced(
       int targetOutstandingRpcsPerStream,
@@ -56,22 +53,23 @@ public class BenchmarkResponseObserverAdvanced implements StreamObserver<Benchma
     long startNanos = callTimestamps.get(value.getId());
     long latencyNanos = nowNanos - startNanos;
     // NOTE(nikola): Measure in microseconds.
-    histogram.recordValue(latencyNanos / 1000L);
+    long latencyMicros = latencyNanos / 1000L;
+    histogram.recordValue(latencyMicros);
+//    if (latencyMicros > 500000) {
+//      System.out.println("Latency too high for: " + value.getId());
+//    }
 
     if (nowNanos >= benchmarkFinishTimeNanos) {
       if (!isCompleted) {
         isCompleted = true;
-        ex.execute(() -> {
-          requestStream.onCompleted();
-        });
+        requestStream.onCompleted();
       }
       return;
     }
     currentOutstandingRpcs--;
-    sendRequest();
-//    while (currentOutstandingRpcs < targetOutstandingRpcsPerStream) {
-//      sendRequest();
-//    }
+    while (currentOutstandingRpcs < targetOutstandingRpcsPerStream) {
+      sendRequest();
+    }
   }
 
   @Override
@@ -87,7 +85,6 @@ public class BenchmarkResponseObserverAdvanced implements StreamObserver<Benchma
 
   public void start() {
     sendRequest();
-    sendRequest();
   }
 
   private void sendRequest() {
@@ -95,7 +92,7 @@ public class BenchmarkResponseObserverAdvanced implements StreamObserver<Benchma
     BenchmarkRequest request = nextRequest();
     callTimestamps.put(request.getId(), timestampNano);
     currentOutstandingRpcs++;
-    ex.execute(() -> requestStream.onNext(request));
+    requestStream.onNext(request);
   }
 
   private BenchmarkRequest nextRequest() {

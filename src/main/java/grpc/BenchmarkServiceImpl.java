@@ -6,21 +6,13 @@ import io.freezing.benchmark.Server.BenchmarkRequest;
 import io.freezing.benchmark.Server.BenchmarkResponse;
 import io.grpc.stub.ServerCallStreamObserver;
 import io.grpc.stub.StreamObserver;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BenchmarkServiceImpl extends BenchmarkServiceImplBase {
   private static final boolean ENABLE_FLOW_CONTROL = false;
 
-  private final Executor processingExecutor;
-
-  public static BenchmarkServiceImpl create(int numProcessingThreads) {
-    return new BenchmarkServiceImpl(Executors.newFixedThreadPool(numProcessingThreads));
-  }
-
-  private BenchmarkServiceImpl(Executor processingExecutor) {
-    this.processingExecutor = processingExecutor;
+  public static BenchmarkServiceImpl create() {
+    return new BenchmarkServiceImpl();
   }
 
   @Override
@@ -58,20 +50,18 @@ public class BenchmarkServiceImpl extends BenchmarkServiceImplBase {
         }
         res = 1 + Math.abs(res);
         if (res > 0) {
-          processingExecutor.execute(() -> {
-            int processingRes = 0;
-            for (int i = 0; i < value.getServerProcessingIterations(); i++) {
-              processingRes += i * i;
-            }
-            processingRes = 1 + Math.abs(processingRes);
-            if (processingRes > 0) {
-              responseObserver.onNext(
-                  PayloadHelpers.makeBenchmarkResponse(value.getId(),
-                      value.getServerPayloadSizeBytes()));
-            } else {
-              System.err.println("processingRes not > 0");
-            }
-          });
+          int processingRes = 0;
+          for (int i = 0; i < value.getServerProcessingIterations(); i++) {
+            processingRes += i * i;
+          }
+          processingRes = 1 + Math.abs(processingRes);
+          if (processingRes > 0) {
+            responseObserver.onNext(
+                PayloadHelpers.makeBenchmarkResponse(value.getId(),
+                    value.getServerPayloadSizeBytes()));
+          } else {
+            System.err.println("processingRes not > 0");
+          }
         } else {
           System.err.println("Res not > 0");
         }

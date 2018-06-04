@@ -30,9 +30,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.hdrhistogram/HdrHistogram
     compile group: 'org.hdrhistogram', name: 'HdrHistogram', version: '2.1.4'
     // https://mvnrepository.com/artifact/io.netty/netty-all
-//    compile group: 'io.netty', name: 'netty-all', version: '4.1.25.Final'
+    compile group: 'io.netty', name: 'netty-all', version: '4.1.25.Final'
     // https://mvnrepository.com/artifact/io.netty/netty-transport-native-kqueue
-//    compile group: 'io.netty', name: 'netty-transport-native-kqueue', version: '4.1.22.Final'
+    compile group: 'io.netty', name: 'netty-transport-native-kqueue', version: '4.1.22.Final'
     compile 'com.google.protobuf:protobuf-java:3.0.0-beta-1'
     // https://mvnrepository.com/artifact/io.grpc/grpc-all
     compile group: 'io.grpc', name: 'grpc-all', version: '1.11.0'
